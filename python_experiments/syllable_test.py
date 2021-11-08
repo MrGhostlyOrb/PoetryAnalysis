@@ -1,5 +1,7 @@
 line = ["This", "is", "a", "poem"]
 
+print("Input : ", line)
+
 total_syllables = 0
 
 for word in line:
