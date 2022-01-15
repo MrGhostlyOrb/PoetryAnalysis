@@ -5,10 +5,15 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.diogonunes.jcolor.*;
+
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Poetry Analysis...\n");
+
+        // Use Case 1: use Ansi.colorize() to format inline
+        System.out.println(Ansi.colorize("This text will be yellow on magenta", Attribute.YELLOW_TEXT(), Attribute.MAGENTA_BACK()));
+        System.out.println("\n");
 
         ArrayList<String> lines = new ArrayList<>();
 
