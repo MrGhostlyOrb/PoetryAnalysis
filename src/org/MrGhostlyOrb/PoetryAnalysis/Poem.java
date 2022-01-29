@@ -1,10 +1,10 @@
 package org.MrGhostlyOrb.PoetryAnalysis;
 
+import org.apache.commons.codec.language.Soundex;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Poem {
     private ArrayList<Stanza> stanzas;
@@ -59,13 +59,52 @@ public class Poem {
     public static void main(String[] args) {
         Poem poem = new Poem("poem_text.txt");
         String rhymeScheme = poem.getRhymeScheme();
+        System.out.println(rhymeScheme);
     }
 
     private String getRhymeScheme() {
         StringBuilder rhymeScheme = new StringBuilder();
+        //Using Linked HashMap to retain insertion order.
+        Soundex soundex = new Soundex();
+        char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        int alphabetCounter = 0;
+        String previousSound = "";
+
         for (Stanza stanza : stanzas) {
-            rhymeScheme.append(stanza.getRhymeScheme());
+            LinkedHashMap<String, Character> soundsAndLetters = new LinkedHashMap<>();
+            LinkedHashMap<String, String> sounds = new LinkedHashMap<>();
+            for(Line line : stanza.getLines()){
+                String lastWord = line.getLastWord();
+                String sound = soundex.soundex(lastWord);
+                sounds.put(lastWord, sound);
+            }
+            //Convert sounds into arraylists.
+            List<String> listValues = new ArrayList<String>(sounds.values());
+            for (int i = 0; i < listValues.size(); i++) {
+                //Firs case of the line for the stanza
+                StringBuilder stringBuilder = new StringBuilder();
+                String currentSound = listValues.get(i).substring(1);
+                if (i == 0) {
+                    stringBuilder.append(alphabet[alphabetCounter]);
+                    rhymeScheme.append(stringBuilder.toString());
+                    //Store the letter into the hashmap for its sound.
+                    soundsAndLetters.put(currentSound, alphabet[alphabetCounter]);
+                } else if (soundsAndLetters.containsKey(currentSound)) {
+                    Character alphabetSoundLetter = soundsAndLetters.get(currentSound);
+                    stringBuilder.append(alphabetSoundLetter.toString());
+                    rhymeScheme.append(stringBuilder.toString());
+                } else {
+                    alphabetCounter+=1;
+                    stringBuilder.append(alphabet[alphabetCounter]);
+                    rhymeScheme.append(stringBuilder.toString());
+
+                }
+            }
+            //rhymeScheme.append(stanza.getRhymeScheme());
+            alphabetCounter+=1;
         }
         return rhymeScheme.toString();
     }
+
+
 }
