@@ -25,11 +25,11 @@ public class Stanza {
         StringBuilder rhymeScheme = new StringBuilder();
         //Using Linked HashMap to retain insertion order.
         LinkedHashMap<String, String> sounds = new LinkedHashMap<>();
-        Soundex soundex = new Soundex();
+        Metaphone metaphone = new Metaphone();
 
         for (Line line : lines) {
             String lastWord = line.getLastWord();
-            String sound = soundex.soundex(lastWord);
+            String sound = metaphone.Encode(lastWord);
             sounds.put(lastWord, sound);
         }
 
