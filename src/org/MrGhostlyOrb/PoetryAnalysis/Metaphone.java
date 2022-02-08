@@ -6,9 +6,9 @@ package org.MrGhostlyOrb.PoetryAnalysis;
 public class Metaphone
 {
     // Constants
-    protected  int MaxEncodedLength = 6;
-    protected  char NullChar = (char)0;
-    protected String Vowels = "AEIOU";
+    protected  int maxEncodedLength = 6;
+    protected  char nullChar = (char)0;
+    protected String vowels = "AEIOU";
 
     // For tracking position within current String
     protected String _text;
@@ -19,65 +19,65 @@ public class Metaphone
     /// </summary>
     /// <param name="text">Text to encode</param>
     /// <returns></returns>
-    public String Encode(String text)
+    public String encode(String text)
     {
         // Process normalized text
-        InitializeText(Normalize(text));
+        initializeText(normalize(text));
 
         // Write encoded String to StringBuilder
         StringBuilder builder = new StringBuilder();
 
         // Special handling of some String prefixes:
         //     PN, KN, GN, AE, WR, WH and X
-        switch (Peek())
+        switch (peek())
         {
             case 'P':
             case 'K':
             case 'G':
-                if (Peek(1) == 'N')
-                    MoveAhead();
+                if (peek(1) == 'N')
+                    moveAhead();
                 break;
 
             case 'A':
-                if (Peek(1) == 'E')
-                    MoveAhead();
+                if (peek(1) == 'E')
+                    moveAhead();
                 break;
 
             case 'W':
-                if (Peek(1) == 'R')
-                    MoveAhead();
-                else if (Peek(1) == 'H')
+                if (peek(1) == 'R')
+                    moveAhead();
+                else if (peek(1) == 'H')
                 {
                     builder.append('W');
-                    MoveAhead(2);
+                    moveAhead(2);
                 }
                 break;
 
             case 'X':
                 builder.append('S');
-                MoveAhead();
+                moveAhead();
                 break;
         }
 
         //
-        while (!EndOfText() && builder.length() < MaxEncodedLength)
+        while (!endOfText() && builder.length() < maxEncodedLength)
         {
             // Cache this character
-            char c = Peek();
+            char c = peek();
 
             // Ignore duplicates except CC
-            if (c == Peek(-1) && c != 'C')
+            if (c == peek(-1) && c != 'C')
             {
-                MoveAhead();
+                moveAhead();
                 continue;
             }
 
             // Don't change F, J, L, M, N, R or first-letter vowel
-            if (IsOneOf(c, "FJLMNR") ||
-                    (builder.length() == 0 && IsOneOf(c, Vowels)))
+            if (isOneOf(c, "FJLMNR") ||
+                    (builder.length() == 0 && isOneOf(c, vowels)))
             {
                 builder.append(c);
-                MoveAhead();
+                moveAhead();
             }
             else
             {
@@ -87,7 +87,7 @@ public class Metaphone
                 {
                     case 'B':
                         // B = 'B' if not -MB
-                        if (Peek(-1) != 'M' || Peek(1) != NullChar)
+                        if (peek(-1) != 'M' || peek(1) != nullChar)
                             builder.append('B');
                         break;
 
@@ -95,16 +95,16 @@ public class Metaphone
                         // C = 'X' if -CIA- or -CH-
                         // Else 'S' if -CE-, -CI- or -CY-
                         // Else 'K' if not -SCE-, -SCI- or -SCY-
-                        if (Peek(-1) != 'S' || !IsOneOf(Peek(1), "EIY"))
+                        if (peek(-1) != 'S' || !isOneOf(peek(1), "EIY"))
                         {
-                            if (Peek(1) == 'I' && Peek(2) == 'A')
+                            if (peek(1) == 'I' && peek(2) == 'A')
                                 builder.append('X');
-                            else if (IsOneOf(Peek(1), "EIY"))
+                            else if (isOneOf(peek(1), "EIY"))
                                 builder.append('S');
-                            else if (Peek(1) == 'H')
+                            else if (peek(1) == 'H')
                             {
-                                if ((_pos == 0 && !IsOneOf(Peek(2), Vowels)) ||
-                                        Peek(-1) == 'S')
+                                if ((_pos == 0 && !isOneOf(peek(2), vowels)) ||
+                                        peek(-1) == 'S')
                                     builder.append('K');
                                 else
                                     builder.append('X');
@@ -117,7 +117,7 @@ public class Metaphone
                     case 'D':
                         // D = 'J' if DGE, DGI or DGY
                         // Else 'T'
-                        if (Peek(1) == 'G' && IsOneOf(Peek(2), "EIY"))
+                        if (peek(1) == 'G' && isOneOf(peek(2), "EIY"))
                             builder.append('J');
                         else
                             builder.append('T');
@@ -128,37 +128,37 @@ public class Metaphone
                         // Else dropped if -GNED, -GN, -DGE-, -DGI-, -DGY-
                         // Else 'J' if -GE-, -GI-, -GY- and not GG
                         // Else K
-                        if ((Peek(1) != 'H' || IsOneOf(Peek(2), Vowels)) &&
-                                (Peek(1) != 'N' || (Peek(1) != NullChar &&
-                                        (Peek(2) != 'E' || Peek(3) != 'D'))) &&
-                                (Peek(-1) != 'D' || !IsOneOf(Peek(1), "EIY")))
+                        if ((peek(1) != 'H' || isOneOf(peek(2), vowels)) &&
+                                (peek(1) != 'N' || (peek(1) != nullChar &&
+                                        (peek(2) != 'E' || peek(3) != 'D'))) &&
+                                (peek(-1) != 'D' || !isOneOf(peek(1), "EIY")))
                         {
-                            if (IsOneOf(Peek(1), "EIY") && Peek(2) != 'G')
+                            if (isOneOf(peek(1), "EIY") && peek(2) != 'G')
                                 builder.append('J');
                             else
                                 builder.append('K');
                         }
                         // Eat GH
-                        if (Peek(1) == 'H')
+                        if (peek(1) == 'H')
                             charsConsumed++;
                         break;
 
                     case 'H':
                         // H = 'H' if before or not after vowel
-                        if (!IsOneOf(Peek(-1), Vowels) || IsOneOf(Peek(1), Vowels))
+                        if (!isOneOf(peek(-1), vowels) || isOneOf(peek(1), vowels))
                             builder.append('H');
                         break;
 
                     case 'K':
                         // K = 'C' if not CK
-                        if (Peek(-1) != 'C')
+                        if (peek(-1) != 'C')
                             builder.append('K');
                         break;
 
                     case 'P':
                         // P = 'F' if PH
                         // Else 'P'
-                        if (Peek(1) == 'H')
+                        if (peek(1) == 'H')
                         {
                             builder.append('F');
                             charsConsumed++;    // Eat 'PH'
@@ -175,12 +175,12 @@ public class Metaphone
                     case 'S':
                         // S = 'X' if SH, SIO or SIA
                         // Else 'S'
-                        if (Peek(1) == 'H')
+                        if (peek(1) == 'H')
                         {
                             builder.append('X');
                             charsConsumed++;    // Eat 'SH'
                         }
-                        else if (Peek(1) == 'I' && IsOneOf(Peek(2), "AO"))
+                        else if (peek(1) == 'I' && isOneOf(peek(2), "AO"))
                             builder.append('X');
                         else
                             builder.append('S');
@@ -190,14 +190,14 @@ public class Metaphone
                         // T = 'X' if TIO or TIA
                         // Else '0' if TH
                         // Else 'T' if not TCH
-                        if (Peek(1) == 'I' && IsOneOf(Peek(2), "AO"))
+                        if (peek(1) == 'I' && isOneOf(peek(2), "AO"))
                             builder.append('X');
-                        else if (Peek(1) == 'H')
+                        else if (peek(1) == 'H')
                         {
                             builder.append('0');
                             charsConsumed++;    // Eat 'TH'
                         }
-                        else if (Peek(1) != 'C' || Peek(2) != 'H')
+                        else if (peek(1) != 'C' || peek(2) != 'H')
                             builder.append('T');
                         break;
 
@@ -209,7 +209,7 @@ public class Metaphone
                     case 'W':
                     case 'Y':
                         // W,Y = Keep if not followed by vowel
-                        if (IsOneOf(Peek(1), Vowels))
+                        if (isOneOf(peek(1), vowels))
                             builder.append(c);
                         break;
 
@@ -225,7 +225,7 @@ public class Metaphone
                         break;
                 }
                 // Advance over consumed characters
-                MoveAhead(charsConsumed);
+                moveAhead(charsConsumed);
             }
         }
         // Return result
@@ -236,7 +236,7 @@ public class Metaphone
     ///
     /// </summary>
     /// <param name="text"></param>
-    protected void InitializeText(String text)
+    protected void initializeText(String text)
     {
         _text = text;
         _pos = 0;
@@ -246,7 +246,7 @@ public class Metaphone
     /// Indicates if the current position is at the end of
     /// the text.
     /// </summary>
-    protected boolean EndOfText()
+    protected boolean endOfText()
     {
        return _pos >= _text.length();
     }
@@ -254,9 +254,9 @@ public class Metaphone
     /// <summary>
     /// Moves the current position ahead one character.
     /// </summary>
-    void MoveAhead()
+    void moveAhead()
     {
-        MoveAhead(1);
+        moveAhead(1);
     }
 
     /// <summary>
@@ -265,7 +265,7 @@ public class Metaphone
     /// </summary>
     /// <param name="count">Number of characters to move
     /// ahead.</param>
-    void MoveAhead(int count)
+    void moveAhead(int count)
     {
         _pos = Math.min(_pos + count, _text.length());
     }
@@ -274,9 +274,9 @@ public class Metaphone
     /// Returns the character at the current position.
     /// </summary>
     /// <returns></returns>
-    protected char Peek()
+    protected char peek()
     {
-        return Peek(0);
+        return peek(0);
     }
 
     /// <summary>
@@ -285,11 +285,11 @@ public class Metaphone
     /// <param name="ahead">Position to read relative
     /// to the current position.</param>
     /// <returns></returns>
-    protected char Peek(int ahead)
+    protected char peek(int ahead)
     {
         int pos = (_pos + ahead);
         if (pos < 0 || pos >= _text.length())
-            return NullChar;
+            return nullChar;
         return _text.toCharArray()[pos];
     }
 
@@ -300,7 +300,7 @@ public class Metaphone
     /// <param name="c">Character to find</param>
     /// <param name="chars">String to search</param>
     /// <returns></returns>
-    protected boolean IsOneOf(char c, String chars)
+    protected boolean isOneOf(char c, String chars)
     {
         return (chars.indexOf(c) != -1);
     }
@@ -312,7 +312,7 @@ public class Metaphone
     /// </summary>
     /// <param name="text">Text to be normalized</param>
     /// <returns></returns>
-    protected String Normalize(String text)
+    protected String normalize(String text)
     {
         StringBuilder builder = new StringBuilder();
         for (char c: text.toCharArray()){
