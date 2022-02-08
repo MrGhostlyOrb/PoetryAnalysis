@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="commons-codec-20041127.091804" level="project" />
+    <orderEntry type="library" name="com.diogonunes:JColor:5.2.0" level="project" />
   </component>
 </module>
