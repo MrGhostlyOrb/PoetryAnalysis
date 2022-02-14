@@ -24,4 +24,16 @@ public class Line {
         }
         return line.toString();
     }
+
+    public String removeLastWord() {
+        StringBuilder line = new StringBuilder();
+       for (int i =0; i<words.size(); i++){
+           if (i != words.size() - 1) {
+               line.append(words.get(i)).append(" ");
+           }
+
+       }
+       return line.toString();
+
+    }
 }

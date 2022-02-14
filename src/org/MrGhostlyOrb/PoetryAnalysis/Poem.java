@@ -1,5 +1,7 @@
 package org.MrGhostlyOrb.PoetryAnalysis;
 
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
 import org.apache.commons.codec.language.Soundex;
 
 import java.io.File;
@@ -10,13 +12,14 @@ import java.util.*;
 
 public class Poem {
     private ArrayList<Stanza> stanzas;
+    private ArrayList<Line> lines;
 
     public Poem(String filePath) {
         try {
             // Read file
             File textFile = new File(filePath);
             Scanner fileReader = new Scanner(textFile);
-            ArrayList<Line> lines = new ArrayList<>();
+            this.lines = new ArrayList<>();
             this.stanzas = new ArrayList<>();
             Line line;
 
@@ -50,9 +53,43 @@ public class Poem {
     }
     @Override
     public String toString() {
-        return "Poem{" +
-                "stanzas=" + stanzas +
-                '}';
+        HashMap<Character, Attribute> rhymeColour = new HashMap<>();
+        rhymeColour.put('A', Attribute.YELLOW_TEXT());
+        rhymeColour.put('B', Attribute.BRIGHT_BLUE_TEXT());
+        rhymeColour.put('C', Attribute.BLUE_TEXT());
+        rhymeColour.put('D', Attribute.BRIGHT_CYAN_TEXT());
+        rhymeColour.put('E', Attribute.BRIGHT_GREEN_TEXT());
+        rhymeColour.put('F', Attribute.BRIGHT_MAGENTA_TEXT());
+        rhymeColour.put('G', Attribute.BRIGHT_RED_TEXT());
+        rhymeColour.put('H', Attribute.BRIGHT_YELLOW_TEXT());
+        rhymeColour.put('I', Attribute.CYAN_TEXT());
+        rhymeColour.put('J', Attribute.GREEN_TEXT());
+        rhymeColour.put('K', Attribute.MAGENTA_TEXT());
+        rhymeColour.put('L', Attribute.RED_TEXT());
+        rhymeColour.put('M', Attribute.YELLOW_TEXT());
+        rhymeColour.put('N', Attribute.YELLOW_TEXT());
+        rhymeColour.put('O', Attribute.YELLOW_TEXT());
+        rhymeColour.put('P', Attribute.YELLOW_TEXT());
+        rhymeColour.put('Q', Attribute.YELLOW_TEXT());
+        rhymeColour.put('R', Attribute.YELLOW_TEXT());
+        rhymeColour.put('S', Attribute.YELLOW_TEXT());
+        rhymeColour.put('T', Attribute.YELLOW_TEXT());
+        rhymeColour.put('U', Attribute.YELLOW_TEXT());
+        rhymeColour.put('V', Attribute.YELLOW_TEXT());
+        rhymeColour.put('W', Attribute.YELLOW_TEXT());
+        rhymeColour.put('X', Attribute.YELLOW_TEXT());
+        rhymeColour.put('Y', Attribute.YELLOW_TEXT());
+        rhymeColour.put('Z', Attribute.YELLOW_TEXT());
+        String getRhyme = getRhymeScheme();
+        for (int i =0; i<lines.size(); i++){
+            //System.out.println(line);
+            char rhyme = getRhyme.charAt(i);
+            System.out.println(lines.get(i).removeLastWord()+ Ansi.colorize(lines.get(i).getLastWord(), rhymeColour.get(rhyme)));
+
+
+
+        }
+        return "";
     }
 
     public static void main(String[] args) throws IOException {
@@ -68,6 +105,7 @@ public class Poem {
                 //String poemTitle = "poem_text";
                 String poemTitle = poemFileName.replaceAll("\\.[^.]*$", "");
                 Poem poem = new Poem("poetry/" + poemTitle);
+                System.out.println(poem);
                 String rhymeScheme = poem.getRhymeScheme();
                 System.out.println(rhymeScheme);
 
