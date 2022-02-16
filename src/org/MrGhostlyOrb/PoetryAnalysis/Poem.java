@@ -2,7 +2,6 @@ package org.MrGhostlyOrb.PoetryAnalysis;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import org.apache.commons.codec.language.Soundex;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -125,7 +124,8 @@ public class Poem {
 
     public String createRhymeScheme() {
         StringBuilder rhymeScheme = new StringBuilder();
-        Soundex soundex = new Soundex();
+        Metaphone metaphone = new Metaphone();
+        String currentSound;
         char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
         int alphabetCounter = 0;
         for (Stanza stanza : stanzas) {
@@ -133,7 +133,7 @@ public class Poem {
             LinkedHashMap<String, String> sounds = new LinkedHashMap<>();
             for (Line line : stanza.getLines()) {
                 String lastWord = line.getLastWord();
-                String sound = soundex.soundex(lastWord);
+                String sound = metaphone.encode(lastWord);
                 sounds.put(lastWord, sound);
             }
             //Change this value to change algorithm
@@ -142,8 +142,8 @@ public class Poem {
                 //First case of the line for the stanza
                 StringBuilder stringBuilder = new StringBuilder();
 
-                //For soundex analysis
-                String currentSound = values.get(i).substring(1);
+                //For analysis
+                currentSound = values.get(i).substring(values.get(i).length()-1);
 
                 if (i == 0) {
                     stringBuilder.append(alphabet[alphabetCounter]);
