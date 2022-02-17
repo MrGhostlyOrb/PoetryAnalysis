@@ -2,7 +2,7 @@ package org.MrGhostlyOrb.PoetryAnalysis;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import org.apache.commons.codec.language.Soundex;
+import org.apache.commons.codec.language.DaitchMokotoffSoundex;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -125,7 +125,7 @@ public class Poem {
 
     public String createRhymeScheme() {
         StringBuilder rhymeScheme = new StringBuilder();
-        Soundex soundex = new Soundex();
+        DaitchMokotoffSoundex daitchMokotoffSoundex = new DaitchMokotoffSoundex();
         char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
         int alphabetCounter = 0;
         for (Stanza stanza : stanzas) {
@@ -133,7 +133,7 @@ public class Poem {
             LinkedHashMap<String, String> sounds = new LinkedHashMap<>();
             for (Line line : stanza.getLines()) {
                 String lastWord = line.getLastWord();
-                String sound = soundex.soundex(lastWord);
+                String sound = daitchMokotoffSoundex.encode(lastWord);
                 sounds.put(lastWord, sound);
             }
             //Change this value to change algorithm
