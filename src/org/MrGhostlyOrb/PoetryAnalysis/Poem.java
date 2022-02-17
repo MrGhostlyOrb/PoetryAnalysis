@@ -2,6 +2,7 @@ package org.MrGhostlyOrb.PoetryAnalysis;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
+import org.apache.commons.codec.language.DoubleMetaphone;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -124,7 +125,7 @@ public class Poem {
 
     public String createRhymeScheme() {
         StringBuilder rhymeScheme = new StringBuilder();
-        Metaphone metaphone = new Metaphone();
+        DoubleMetaphone doubleMetaphone = new DoubleMetaphone();
         String currentSound;
         char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
         int alphabetCounter = 0;
@@ -133,7 +134,7 @@ public class Poem {
             LinkedHashMap<String, String> sounds = new LinkedHashMap<>();
             for (Line line : stanza.getLines()) {
                 String lastWord = line.getLastWord();
-                String sound = metaphone.encode(lastWord);
+                String sound = doubleMetaphone.encode(lastWord);
                 sounds.put(lastWord, sound);
             }
             //Change this value to change algorithm
