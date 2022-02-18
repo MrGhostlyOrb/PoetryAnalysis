@@ -143,7 +143,7 @@ public class Poem {
                 StringBuilder stringBuilder = new StringBuilder();
 
                 //For soundex analysis
-                String currentSound = values.get(i).substring(1);
+                String currentSound = values.get(i).substring(3);
 
                 if (i == 0) {
                     stringBuilder.append(alphabet[alphabetCounter]);
