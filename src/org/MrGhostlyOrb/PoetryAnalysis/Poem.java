@@ -13,6 +13,7 @@ import java.util.*;
 public class Poem {
     private ArrayList<Stanza> stanzas;
     private ArrayList<Line> lines;
+    private String rhymeScheme;
 
     public Poem(String filePath) {
         try {
@@ -46,11 +47,13 @@ public class Poem {
             Stanza stanza = new Stanza(lines);
             this.stanzas.add(stanza);
             fileReader.close();
+            this.rhymeScheme = createRhymeScheme();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("No file found, exiting...");
         }
     }
+
     @Override
     public String toString() {
         HashMap<Character, Attribute> rhymeColour = new HashMap<>();
@@ -81,15 +84,15 @@ public class Poem {
         rhymeColour.put('Y', Attribute.YELLOW_TEXT());
         rhymeColour.put('Z', Attribute.YELLOW_TEXT());
         String getRhyme = getRhymeScheme();
-        for (int i =0; i<lines.size(); i++){
-            //System.out.println(line);
+        for (int i = 0; i < lines.size(); i++) {
             char rhyme = getRhyme.charAt(i);
-            System.out.println(lines.get(i).removeLastWord()+ Ansi.colorize(lines.get(i).getLastWord(), rhymeColour.get(rhyme)));
-
-
-
+            System.out.println(lines.get(i).removeLastWord() + Ansi.colorize(lines.get(i).getLastWord(), rhymeColour.get(rhyme)));
         }
         return "";
+    }
+
+    public String getRhymeScheme() {
+        return rhymeScheme;
     }
 
     public static void main(String[] args) throws IOException {
@@ -101,89 +104,69 @@ public class Poem {
         // Populates the array with names of files and directories
         poemFiles = f.list();
         if (poemFiles != null) {
-            for(String poemFileName : poemFiles) {
-                //String poemTitle = "poem_text";
-                String poemTitle = poemFileName.replaceAll("\\.[^.]*$", "");
-                Poem poem = new Poem("poetry/" + poemTitle);
-                System.out.println(poem);
-                String rhymeScheme = poem.getRhymeScheme();
-                System.out.println(rhymeScheme);
+            for (String poemFileName : poemFiles) {
+                if (!poemFileName.endsWith(".aut") && !poemFileName.endsWith(".man")) {
+                    //String poemTitle = "poem_text";
+                    String poemTitle = poemFileName.replaceAll("\\.[^.]*$", "");
+                    Poem poem = new Poem("poetry/" + poemTitle);
+                    System.out.println(poem);
+                    String rhymeScheme = poem.getRhymeScheme();
+                    System.out.println("Calculated rhyme scheme of " + Ansi.colorize(poemTitle, Attribute.BLACK_TEXT(), Attribute.MAGENTA_BACK()) + " : " + rhymeScheme + "\n\n");
 
-                File testFile = new File("poetry/"+ poemTitle + ".aut");
-                FileWriter myWriter = new FileWriter(testFile);
-                myWriter.write(rhymeScheme);
-                myWriter.close();
-                System.out.println("Successfully wrote to the file.");
-
-                //System.out.println(Arrays.toString(poemFiles));
+                    File testFile = new File("poetry/" + poemTitle + ".aut");
+                    FileWriter myWriter = new FileWriter(testFile);
+                    myWriter.write(rhymeScheme);
+                    myWriter.close();
+                    System.out.println("Successfully wrote to the file.");
+                }
             }
         }
-
     }
-    public String getRhymeScheme() {
+
+    public String createRhymeScheme() {
         StringBuilder rhymeScheme = new StringBuilder();
-        //Using Linked HashMap to retain insertion order.
-        Metaphone metaphone = new Metaphone();
         Soundex soundex = new Soundex();
         char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
         int alphabetCounter = 0;
         for (Stanza stanza : stanzas) {
-            LinkedHashMap<String, Character> metaphoneSoundsAndLetters = new LinkedHashMap<>();
-            LinkedHashMap<String, Character> soundexSoundsAndLetters = new LinkedHashMap<>();
-            LinkedHashMap<String, String> metaphoneSounds = new LinkedHashMap<>();
-            LinkedHashMap<String, String> soundexSounds = new LinkedHashMap<>();
+            LinkedHashMap<String, Character> soundsAndLetters = new LinkedHashMap<>();
+            LinkedHashMap<String, String> sounds = new LinkedHashMap<>();
             for (Line line : stanza.getLines()) {
                 String lastWord = line.getLastWord();
-                String metaphoneSound = metaphone.encode(lastWord);
-                String soundexSound = soundex.soundex(lastWord);
-                System.out.println(metaphoneSound);
-                //System.out.println(sound2);
-                metaphoneSounds.put(lastWord, metaphoneSound);
-                soundexSounds.put(lastWord, soundexSound);
+                String sound = soundex.soundex(lastWord);
+                sounds.put(lastWord, sound);
             }
-            //Convert sounds into arraylists.
-
             //Change this value to change algorithm
-            List<String> metaphoneValues = new ArrayList<>(metaphoneSounds.values());
-            List<String> soundexValues = new ArrayList<>(soundexSounds.values());
-            for (int i = 0; i < metaphoneValues.size(); i++) {
+            List<String> values = new ArrayList<>(sounds.values());
+            for (int i = 0; i < values.size(); i++) {
                 //First case of the line for the stanza
                 StringBuilder stringBuilder = new StringBuilder();
 
                 //For soundex analysis
-                String currentSoundexSound = soundexValues.get(i).substring(1);
-                //For metaphone analysis
-                String currentMetaphoneSound = metaphoneValues.get(i).substring(metaphoneValues.get(i).length() -1);
+                String currentSound = values.get(i).substring(1);
 
-                System.out.println("Current sound : " + currentMetaphoneSound);
                 if (i == 0) {
                     stringBuilder.append(alphabet[alphabetCounter]);
                     rhymeScheme.append(stringBuilder.toString());
                     //Store the letter into the hashmap for its sound.
-                    metaphoneSoundsAndLetters.put(currentMetaphoneSound, alphabet[alphabetCounter]);
-                    soundexSoundsAndLetters.put(currentSoundexSound, alphabet[alphabetCounter]);
-                } else if (metaphoneSoundsAndLetters.containsKey(currentMetaphoneSound) && soundexSoundsAndLetters.containsKey(currentSoundexSound)) {
+                    soundsAndLetters.put(currentSound, alphabet[alphabetCounter]);
+                } else if (soundsAndLetters.containsKey(currentSound)) {
                     //Rhyme was found.
-                    Character alphabetSoundLetter;
-                    if (soundexSoundsAndLetters.containsKey(currentSoundexSound)){
-                        alphabetSoundLetter = soundexSoundsAndLetters.get(currentSoundexSound);
-                    }else{
-                        alphabetSoundLetter = metaphoneSoundsAndLetters.get(currentMetaphoneSound);
+                    Character alphabetSoundLetter = null;
+                    if (soundsAndLetters.containsKey(currentSound)) {
+                        alphabetSoundLetter = soundsAndLetters.get(currentSound);
                     }
+                    assert alphabetSoundLetter != null;
                     stringBuilder.append(alphabetSoundLetter.toString());
                     rhymeScheme.append(stringBuilder.toString());
                 } else {
                     alphabetCounter += 1;
                     stringBuilder.append(alphabet[alphabetCounter]);
                     rhymeScheme.append(stringBuilder.toString());
-
                 }
             }
-            //rhymeScheme.append(stanza.getRhymeScheme());
             alphabetCounter += 1;
         }
         return rhymeScheme.toString();
     }
-
-
 }
