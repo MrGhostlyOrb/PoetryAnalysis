@@ -99,7 +99,7 @@ public class Poem {
         String[] poemFiles;
         // Creates a new File instance by converting the given pathname string
         // into an abstract pathname
-        File f = new File("./poetry");
+        File f = new File("./poetry/general");
 
         // Populates the array with names of files and directories
         poemFiles = f.list();
@@ -108,12 +108,12 @@ public class Poem {
                 if (!poemFileName.endsWith(".aut") && !poemFileName.endsWith(".man")) {
                     //String poemTitle = "poem_text";
                     String poemTitle = poemFileName.replaceAll("\\.[^.]*$", "");
-                    Poem poem = new Poem("poetry/" + poemTitle);
+                    Poem poem = new Poem("poetry/general/" + poemTitle);
                     System.out.println(poem);
                     String rhymeScheme = poem.getRhymeScheme();
                     System.out.println("Calculated rhyme scheme of " + Ansi.colorize(poemTitle, Attribute.BLACK_TEXT(), Attribute.MAGENTA_BACK()) + " : " + rhymeScheme + "\n\n");
 
-                    File testFile = new File("poetry/" + poemTitle + ".aut");
+                    File testFile = new File("poetry/general/" + poemTitle + ".aut");
                     FileWriter myWriter = new FileWriter(testFile);
                     myWriter.write(rhymeScheme);
                     myWriter.close();
