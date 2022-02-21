@@ -26,7 +26,7 @@ public class Main {
         poemFiles = f.list();
         if (poemFiles != null) {
             for (String poemFileName : poemFiles) {
-                if (!poemFileName.endsWith(".soundex") && !poemFileName.endsWith(".man") && !poemFileName.startsWith(".")) {
+                if (!poemFileName.endsWith(".doublemetaphone") && !poemFileName.endsWith(".man") && !poemFileName.startsWith(".")) {
                     //String poemTitle = "poem_text";
                     String poemTitle = poemFileName.replaceAll("\\.[^.]*$", "");
                     Poem poem = new Poem("poetry/"+directory+"/" + poemTitle);
@@ -34,7 +34,7 @@ public class Main {
                     String rhymeScheme = poem.getRhymeScheme();
                     System.out.println("Calculated rhyme scheme of " + Ansi.colorize(poemTitle, Attribute.BLACK_TEXT(), Attribute.MAGENTA_BACK()) + " : " + rhymeScheme + "\n\n");
 
-                    File testFile = new File("poetry/"+directory+"/" + poemTitle + ".soundex");
+                    File testFile = new File("python_experiments/generated/"+directory+"/" + poemTitle + ".doublemetaphone");
                     FileWriter myWriter = new FileWriter(testFile);
                     myWriter.write(rhymeScheme);
                     myWriter.close();
