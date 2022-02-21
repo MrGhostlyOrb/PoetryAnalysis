@@ -133,7 +133,7 @@ public class Poem {
             LinkedHashMap<String, String> sounds = new LinkedHashMap<>();
             for (Line line : stanza.getLines()) {
                 String lastWord = line.getLastWord();
-                String sound = soundex.soundex(lastWord);
+                String sound = soundex.encode(lastWord);
                 sounds.put(lastWord, sound);
             }
             //Change this value to change algorithm
