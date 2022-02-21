@@ -11,32 +11,35 @@ import com.diogonunes.jcolor.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        // Use Case 1: use Ansi.colorize() to format inline
-        System.out.println(Ansi.colorize("This text will be yellow on magenta", Attribute.YELLOW_TEXT(), Attribute.MAGENTA_BACK()));
-        System.out.println("\n");
-        ArrayList<String> lines = new ArrayList<>();
+        generatePoemTest("general");
+        generatePoemTest("shakespearean_sonnets");
+        generatePoemTest("petrarchan_sonnets");
+    }
+
+    public static void generatePoemTest(String directory) throws IOException {
         String[] poemFiles;
         // Creates a new File instance by converting the given pathname string
         // into an abstract pathname
-        File f = new File("./poetry");
+        File f = new File("./poetry/" + directory);
 
         // Populates the array with names of files and directories
         poemFiles = f.list();
         if (poemFiles != null) {
-            for(String poemFileName : poemFiles) {
-                //String poemTitle = "poem_text";
-                String poemTitle = poemFileName.replaceAll("\\.[^.]*$", "");
-                Poem poem = new Poem("poetry/" + poemTitle);
-                String rhymeScheme = poem.getRhymeScheme();
-                System.out.println(rhymeScheme);
+            for (String poemFileName : poemFiles) {
+                if (!poemFileName.endsWith(".metaphone") && !poemFileName.endsWith(".man") && !poemFileName.startsWith(".")) {
+                    //String poemTitle = "poem_text";
+                    String poemTitle = poemFileName.replaceAll("\\.[^.]*$", "");
+                    Poem poem = new Poem("poetry/"+directory+"/" + poemTitle);
+                    System.out.println(poem);
+                    String rhymeScheme = poem.getRhymeScheme();
+                    System.out.println("Calculated rhyme scheme of " + Ansi.colorize(poemTitle, Attribute.BLACK_TEXT(), Attribute.MAGENTA_BACK()) + " : " + rhymeScheme + "\n\n");
 
-                File testFile = new File("poetry/"+ poemTitle + ".aut");
-                FileWriter myWriter = new FileWriter(testFile);
-                myWriter.write(rhymeScheme);
-                myWriter.close();
-                System.out.println("Successfully wrote to the file.");
-
-                //System.out.println(Arrays.toString(poemFiles));
+                    File testFile = new File("python_experiments/generated/"+directory+"/" + poemTitle + ".metaphone");
+                    FileWriter myWriter = new FileWriter(testFile);
+                    myWriter.write(rhymeScheme);
+                    myWriter.close();
+                    System.out.println("Successfully wrote to the file.");
+                }
             }
         }
     }
