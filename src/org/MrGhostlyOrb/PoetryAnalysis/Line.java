@@ -15,6 +15,15 @@ public class Line {
         return words.get(words.size() - 1);
     }
 
+    public ArrayList<Character> getFirstLetters(){
+        ArrayList<Character> firstLetters = new ArrayList<>();
+        for (String word : words) {
+            char firstLetter = word.charAt(0);
+            firstLetters.add(firstLetter);
+        }
+        return firstLetters;
+    }
+
     @Override
     public String toString() {
         StringBuilder line = new StringBuilder();
