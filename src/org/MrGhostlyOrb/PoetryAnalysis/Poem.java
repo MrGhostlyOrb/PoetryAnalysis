@@ -14,6 +14,8 @@ public class Poem {
     private ArrayList<Stanza> stanzas;
     private ArrayList<Line> lines;
     private String rhymeScheme;
+    private ArrayList<LinkedHashMap<Character, Character>> alliterationScheme;
+
 
     public Poem(String filePath) {
         try {
@@ -48,9 +50,12 @@ public class Poem {
             this.stanzas.add(stanza);
             fileReader.close();
             this.rhymeScheme = createRhymeScheme();
+            this.alliterationScheme = createAlliterationScheme();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("No file found, exiting...");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -84,11 +89,30 @@ public class Poem {
         rhymeColour.put('Y', Attribute.YELLOW_TEXT());
         rhymeColour.put('Z', Attribute.YELLOW_TEXT());
         String getRhyme = getRhymeScheme();
+        ArrayList<LinkedHashMap<Character, Character>> getAlliterationScheme = getAlliterationScheme();
+        System.out.println(getAlliterationScheme);
         for (int i = 0; i < lines.size(); i++) {
             char rhyme = getRhyme.charAt(i);
-            System.out.println(lines.get(i).removeLastWord() + Ansi.colorize(lines.get(i).getLastWord(), rhymeColour.get(rhyme)));
+
+            ArrayList<Line> colouredLines = lines;
+            String colouredLine = colouredLines.get(i).removeLastWord() + Ansi.colorize(colouredLines.get(i).getLastWord(), rhymeColour.get(rhyme));
+            Line line = new Line(colouredLine);
+            System.out.println(line);
+            String firstLetters = line.getFirstLettersNoRepeats();
+            for (int j = 0; j < lines.get(i).getWords().size(); j++) {
+                String word = lines.get(i).getWords().get(j);
+                System.out.println(lines.get(i).getWords().size());
+                System.out.println("Word : " + word);
+                System.out.println(getAlliterationScheme.get(i));
+                char alliterationColour = getAlliterationScheme.get(i).get(0);
+                System.out.println(alliterationColour);
+            }
         }
         return "";
+    }
+
+    private ArrayList<LinkedHashMap<Character, Character>> getAlliterationScheme() {
+        return alliterationScheme;
     }
 
     public String getRhymeScheme() {
@@ -168,5 +192,31 @@ public class Poem {
             alphabetCounter += 1;
         }
         return rhymeScheme.toString();
+    }
+
+    public ArrayList<LinkedHashMap<Character, Character>> createAlliterationScheme() throws Exception {
+        char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        ArrayList<LinkedHashMap<Character, Character>> alliteration = new ArrayList<>();
+        for (Stanza stanza : stanzas) {
+            for (Line line : stanza.getLines()) {
+                int alphabetCounter = 0;
+                LinkedHashMap<Character, Character> letters = new LinkedHashMap<>();
+                String lineLetters = line.getFirstLetters();
+                for (int i = 0; i < lineLetters.toCharArray().length; i++) {
+                    char chara = lineLetters.charAt(i);
+                    if (!letters.containsKey(chara)){
+                        letters.put(chara, alphabet[alphabetCounter]);
+                        alphabetCounter+=1;
+                    }
+                    else{
+                        letters.put(chara, letters.get(chara));
+                    }
+                }
+                alliteration.add(letters);
+
+            }
+
+        }
+        return alliteration;
     }
 }

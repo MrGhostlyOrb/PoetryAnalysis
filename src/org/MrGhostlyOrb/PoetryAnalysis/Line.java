@@ -1,9 +1,12 @@
 package org.MrGhostlyOrb.PoetryAnalysis;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
-public class Line {
+public class Line{
+    public ArrayList<String> getWords() {
+        return words;
+    }
+
     private final ArrayList<String> words;
 
     public Line(String line){
@@ -11,17 +14,71 @@ public class Line {
         this.words = new ArrayList<>(Arrays.asList(words));
     }
 
-    public String getLastWord() {
-        return words.get(words.size() - 1);
+    public String getFirstLetters() {
+        StringBuilder firstLetters = new StringBuilder();
+        System.out.println(words);
+        for (String word : this.words) {
+            String firstLetter;
+            try{
+                int i = 0;
+                while (true){
+                    if(Character.isLetter(word.charAt(i))){
+                        firstLetter = String.valueOf(word.charAt(i)).toLowerCase();
+                        break;
+                    }
+                    else{
+                        i += 1;
+                    }
+                }
+            }
+            catch (Exception e){
+                System.out.println("Exception");
+                firstLetter = "";
+            }
+
+            firstLetters.append(firstLetter);
+
+        }
+        System.out.println(firstLetters);
+        return firstLetters.toString();
     }
 
-    public ArrayList<Character> getFirstLetters(){
-        ArrayList<Character> firstLetters = new ArrayList<>();
-        for (String word : words) {
-            char firstLetter = word.charAt(0);
-            firstLetters.add(firstLetter);
+    public String getFirstLettersNoRepeats() {
+        StringBuilder firstLetters = new StringBuilder();
+        System.out.println(words);
+        for (String word : this.words) {
+            String firstLetter;
+            try{
+                int i = 0;
+                while (true){
+                    if(Character.isLetter(word.charAt(i))){
+                        firstLetter = String.valueOf(word.charAt(i)).toLowerCase();
+                        break;
+                    }
+                    else{
+                        i += 1;
+                    }
+                }
+            }
+            catch (Exception e){
+                System.out.println("Exception");
+                firstLetter = "";
+            }
+
+            firstLetters.append(firstLetter);
+
         }
-        return firstLetters;
+        System.out.println(firstLetters);
+        char[] chars = firstLetters.toString().toCharArray();
+        Set<Character> charSet = new LinkedHashSet<>();
+        for (char c : chars) {
+            charSet.add(c);
+        }
+        return charSet.toString();
+    }
+
+    public String getLastWord() {
+        return words.get(words.size() - 1);
     }
 
     @Override
