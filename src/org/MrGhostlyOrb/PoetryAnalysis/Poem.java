@@ -12,7 +12,7 @@ import java.util.*;
 
 public class Poem {
     private ArrayList<Stanza> stanzas;
-    private ArrayList<Line> lines;
+    private ArrayList<Line> lines = new ArrayList<>();
     private String rhymeScheme;
     private ArrayList<LinkedHashMap<Character, Character>> alliterationScheme;
 
@@ -49,6 +49,9 @@ public class Poem {
             Stanza stanza = new Stanza(lines);
             this.stanzas.add(stanza);
             fileReader.close();
+            for (Stanza sta : this.stanzas) {
+                this.lines.addAll(sta.getLines());
+            }
             this.rhymeScheme = createRhymeScheme();
             this.alliterationScheme = createAlliterationScheme();
         } catch (FileNotFoundException e) {
@@ -91,6 +94,7 @@ public class Poem {
         String getRhyme = getRhymeScheme();
         ArrayList<LinkedHashMap<Character, Character>> getAlliterationScheme = getAlliterationScheme();
         System.out.println(getAlliterationScheme);
+        System.out.println(lines);
         for (int i = 0; i < lines.size(); i++) {
             char rhyme = getRhyme.charAt(i);
 
@@ -98,13 +102,13 @@ public class Poem {
             String colouredLine = colouredLines.get(i).removeLastWord() + Ansi.colorize(colouredLines.get(i).getLastWord(), rhymeColour.get(rhyme));
             Line line = new Line(colouredLine);
             System.out.println(line);
-            String firstLetters = line.getFirstLettersNoRepeats();
+            String firstLetters = line.getFirstLetters();
             for (int j = 0; j < lines.get(i).getWords().size(); j++) {
                 String word = lines.get(i).getWords().get(j);
                 System.out.println(lines.get(i).getWords().size());
                 System.out.println("Word : " + word);
                 System.out.println(getAlliterationScheme.get(i));
-                char alliterationColour = getAlliterationScheme.get(i).get(0);
+                char alliterationColour = getAlliterationScheme.get(i).get(firstLetters.toCharArray()[j]);
                 System.out.println(alliterationColour);
             }
         }
