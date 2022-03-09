@@ -23,6 +23,7 @@ public class Poem {
             File textFile = new File(filePath);
             Scanner fileReader = new Scanner(textFile);
             this.lines = new ArrayList<>();
+            ArrayList<Line> poemLines = new ArrayList<>();
             this.stanzas = new ArrayList<>();
             Line line;
 
@@ -34,19 +35,18 @@ public class Poem {
 
                 // If the line is blank aka ' ' then create a new stanza
                 if (Objects.equals(line.toString(), " ")) {
-                    Stanza stanza = new Stanza(lines);
+                    Stanza stanza = new Stanza(poemLines);
                     this.stanzas.add(stanza);
-                    lines = new ArrayList<>();
                 }
 
                 // Otherwise, add the line to the list
                 else {
-                    lines.add(line);
+                    poemLines.add(line);
                 }
             }
 
             // Add final stanza to poem
-            Stanza stanza = new Stanza(lines);
+            Stanza stanza = new Stanza(poemLines);
             this.stanzas.add(stanza);
             fileReader.close();
             for (Stanza sta : this.stanzas) {
