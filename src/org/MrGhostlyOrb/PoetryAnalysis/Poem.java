@@ -64,53 +64,113 @@ public class Poem {
 
     @Override
     public String toString() {
-        HashMap<Character, Attribute> rhymeColour = new HashMap<>();
-        rhymeColour.put('A', Attribute.YELLOW_TEXT());
-        rhymeColour.put('B', Attribute.BRIGHT_BLUE_TEXT());
-        rhymeColour.put('C', Attribute.BLUE_TEXT());
-        rhymeColour.put('D', Attribute.BRIGHT_CYAN_TEXT());
-        rhymeColour.put('E', Attribute.BRIGHT_GREEN_TEXT());
-        rhymeColour.put('F', Attribute.BRIGHT_MAGENTA_TEXT());
-        rhymeColour.put('G', Attribute.BRIGHT_RED_TEXT());
-        rhymeColour.put('H', Attribute.BRIGHT_YELLOW_TEXT());
-        rhymeColour.put('I', Attribute.CYAN_TEXT());
-        rhymeColour.put('J', Attribute.GREEN_TEXT());
-        rhymeColour.put('K', Attribute.MAGENTA_TEXT());
-        rhymeColour.put('L', Attribute.RED_TEXT());
-        rhymeColour.put('M', Attribute.YELLOW_TEXT());
-        rhymeColour.put('N', Attribute.YELLOW_TEXT());
-        rhymeColour.put('O', Attribute.YELLOW_TEXT());
-        rhymeColour.put('P', Attribute.YELLOW_TEXT());
-        rhymeColour.put('Q', Attribute.YELLOW_TEXT());
-        rhymeColour.put('R', Attribute.YELLOW_TEXT());
-        rhymeColour.put('S', Attribute.YELLOW_TEXT());
-        rhymeColour.put('T', Attribute.YELLOW_TEXT());
-        rhymeColour.put('U', Attribute.YELLOW_TEXT());
-        rhymeColour.put('V', Attribute.YELLOW_TEXT());
-        rhymeColour.put('W', Attribute.YELLOW_TEXT());
-        rhymeColour.put('X', Attribute.YELLOW_TEXT());
-        rhymeColour.put('Y', Attribute.YELLOW_TEXT());
-        rhymeColour.put('Z', Attribute.YELLOW_TEXT());
+        HashMap<Character, Attribute> alliterationColours = new HashMap<>();
+        alliterationColours.put('A', Attribute.YELLOW_TEXT());
+        alliterationColours.put('B', Attribute.BRIGHT_BLUE_TEXT());
+        alliterationColours.put('C', Attribute.BLUE_TEXT());
+        alliterationColours.put('D', Attribute.BRIGHT_CYAN_TEXT());
+        alliterationColours.put('E', Attribute.BRIGHT_GREEN_TEXT());
+        alliterationColours.put('F', Attribute.BRIGHT_MAGENTA_TEXT());
+        alliterationColours.put('G', Attribute.BRIGHT_RED_TEXT());
+        alliterationColours.put('H', Attribute.BRIGHT_YELLOW_TEXT());
+        alliterationColours.put('I', Attribute.CYAN_TEXT());
+        alliterationColours.put('J', Attribute.GREEN_TEXT());
+        alliterationColours.put('K', Attribute.MAGENTA_TEXT());
+        alliterationColours.put('L', Attribute.RED_TEXT());
+        alliterationColours.put('M', Attribute.YELLOW_TEXT());
+        alliterationColours.put('N', Attribute.BRIGHT_BLUE_TEXT());
+        alliterationColours.put('O', Attribute.BLUE_TEXT());
+        alliterationColours.put('P', Attribute.BRIGHT_CYAN_TEXT());
+        alliterationColours.put('Q', Attribute.BRIGHT_GREEN_TEXT());
+        alliterationColours.put('R', Attribute.BRIGHT_MAGENTA_TEXT());
+        alliterationColours.put('S', Attribute.BRIGHT_RED_TEXT());
+        alliterationColours.put('T', Attribute.BRIGHT_YELLOW_TEXT());
+        alliterationColours.put('U', Attribute.CYAN_TEXT());
+        alliterationColours.put('V', Attribute.GREEN_TEXT());
+        alliterationColours.put('W', Attribute.MAGENTA_TEXT());
+        alliterationColours.put('X', Attribute.RED_TEXT());
+        alliterationColours.put('Y', Attribute.YELLOW_TEXT());
+        alliterationColours.put('Z', Attribute.BRIGHT_BLUE_TEXT());
+
+        HashMap<Character, Attribute> rhymeColours = new HashMap<>();
+        rhymeColours.put('A', Attribute.YELLOW_BACK());
+        rhymeColours.put('B', Attribute.BRIGHT_BLUE_BACK());
+        rhymeColours.put('C', Attribute.BLUE_BACK());
+        rhymeColours.put('D', Attribute.BRIGHT_CYAN_BACK());
+        rhymeColours.put('E', Attribute.BRIGHT_GREEN_BACK());
+        rhymeColours.put('F', Attribute.BRIGHT_MAGENTA_BACK());
+        rhymeColours.put('G', Attribute.BRIGHT_RED_BACK());
+        rhymeColours.put('H', Attribute.BRIGHT_YELLOW_BACK());
+        rhymeColours.put('I', Attribute.CYAN_BACK());
+        rhymeColours.put('J', Attribute.GREEN_BACK());
+        rhymeColours.put('K', Attribute.MAGENTA_BACK());
+        rhymeColours.put('L', Attribute.RED_BACK());
+        rhymeColours.put('M', Attribute.YELLOW_BACK());
+        rhymeColours.put('N', Attribute.BRIGHT_BLUE_BACK());
+        rhymeColours.put('O', Attribute.BLUE_BACK());
+        rhymeColours.put('P', Attribute.BRIGHT_CYAN_BACK());
+        rhymeColours.put('Q', Attribute.BRIGHT_GREEN_BACK());
+        rhymeColours.put('R', Attribute.BRIGHT_MAGENTA_BACK());
+        rhymeColours.put('S', Attribute.BRIGHT_RED_BACK());
+        rhymeColours.put('T', Attribute.BRIGHT_YELLOW_BACK());
+        rhymeColours.put('U', Attribute.CYAN_BACK());
+        rhymeColours.put('V', Attribute.GREEN_BACK());
+        rhymeColours.put('W', Attribute.MAGENTA_BACK());
+        rhymeColours.put('X', Attribute.RED_BACK());
+        rhymeColours.put('Y', Attribute.YELLOW_BACK());
+        rhymeColours.put('Z', Attribute.BRIGHT_BLUE_BACK());
+
         String getRhyme = getRhymeScheme();
         ArrayList<LinkedHashMap<Character, Character>> getAlliterationScheme = getAlliterationScheme();
-        System.out.println(getAlliterationScheme);
-        System.out.println(lines);
-        for (int i = 0; i < lines.size(); i++) {
+
+        ArrayList<String> computedColouredLines = new ArrayList<>();
+
+        for (int i = 0; i < getRhyme.toCharArray().length; i++) {
             char rhyme = getRhyme.charAt(i);
 
-            ArrayList<Line> colouredLines = lines;
-            String colouredLine = colouredLines.get(i).removeLastWord() + Ansi.colorize(colouredLines.get(i).getLastWord(), rhymeColour.get(rhyme));
-            Line line = new Line(colouredLine);
-            System.out.println(line);
-            String firstLetters = line.getFirstLetters();
+            ArrayList<Line> colouredLines = this.lines;
+            String colouredLine = colouredLines.get(i).removeLastWord() + Ansi.colorize(colouredLines.get(i).getLastWord(), rhymeColours.get(rhyme));
+            computedColouredLines.add(colouredLine);
+        }
+
+        // Loop to add colour to alliteration
+        System.out.println("Poem with highlighted alliteration : \n");
+        for (int i = 0; i < this.lines.size(); i++) {
+
+            String firstLetters = this.lines.get(i).getFirstLetters();
+            ArrayList<String> colouredWords = new ArrayList<>();
             for (int j = 0; j < lines.get(i).getWords().size(); j++) {
                 String word = lines.get(i).getWords().get(j);
-                System.out.println(lines.get(i).getWords().size());
-                System.out.println("Word : " + word);
-                System.out.println(getAlliterationScheme.get(i));
                 char alliterationColour = getAlliterationScheme.get(i).get(firstLetters.toCharArray()[j]);
-                System.out.println(alliterationColour);
+
+                // Only highlight words longer than 2 letters
+                // Could also remove any stop words here
+                if (word.toCharArray().length > 2){
+                    String colouredWord = Ansi.colorize(word.substring(0, 1), alliterationColours.get(alliterationColour)) + word.substring(1);
+                    colouredWords.add(colouredWord);
+                }
+                else{
+                    colouredWords.add(word);
+                }
+
             }
+            StringBuilder stringBuilder = new StringBuilder();
+            for (String word : colouredWords){
+
+                stringBuilder.append(word).append(" ");
+            }
+
+            // Print line with alliteration highlighted
+            System.out.println(stringBuilder.toString());
+        }
+
+        System.out.println();
+        System.out.println("Poem with highlighted Rhyme Scheme : \n");
+
+        for (int i = 0; i < computedColouredLines.size(); i++) {
+
+            // Print line with rhyme scheme highlighted
+            System.out.println(computedColouredLines.get(i));
         }
         return "";
     }
@@ -145,7 +205,7 @@ public class Poem {
                     FileWriter myWriter = new FileWriter(testFile);
                     myWriter.write(rhymeScheme);
                     myWriter.close();
-                    System.out.println("Successfully wrote to the file.");
+                    System.out.println("Successfully wrote to the file.\n");
                 }
             }
         }
@@ -154,7 +214,7 @@ public class Poem {
     public String createRhymeScheme() {
         StringBuilder rhymeScheme = new StringBuilder();
         Soundex soundex = new Soundex();
-        char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
         int alphabetCounter = 0;
         for (Stanza stanza : stanzas) {
             LinkedHashMap<String, Character> soundsAndLetters = new LinkedHashMap<>();

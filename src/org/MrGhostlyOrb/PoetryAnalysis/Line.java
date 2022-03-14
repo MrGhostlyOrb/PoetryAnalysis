@@ -16,7 +16,6 @@ public class Line{
 
     public String getFirstLetters() {
         StringBuilder firstLetters = new StringBuilder();
-        System.out.println(words);
         for (String word : this.words) {
             String firstLetter;
             try{
@@ -39,7 +38,6 @@ public class Line{
             firstLetters.append(firstLetter);
 
         }
-        System.out.println(firstLetters);
         return firstLetters.toString();
     }
 
