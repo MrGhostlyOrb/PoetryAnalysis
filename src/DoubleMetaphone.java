@@ -6,13 +6,7 @@ public class DoubleMetaphone {
 
     // Test harness
     public static void main(String[] args) {
-        Poem poem = new Poem();
-        poem.setName("The_Raven");
-        ArrayList<String> lines = new ArrayList<>();
-        lines.add("The Raven");
-        lines.add("Once upon a midnight dreary");
-        lines.add("We had no dream");
-        poem.setLines(lines);
+        Poem poem = TestPoem.getTestPoem();
         try {
             System.out.println(DoubleMetaphone.getRhymeScheme(poem));
         } catch (FileNotFoundException e) {
