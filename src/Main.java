@@ -12,7 +12,6 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
 
 
-
         // Create a JFrame with a grid layout
         JFrame frame = new JFrame("Poetry Analysis");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -81,7 +80,6 @@ public class Main {
             stringBuilder.append(s).append("<br>");
         }
 
-
         JLabel poetryLabel = new JLabel("<html>Poems currently in \"poetry\" directory: <br> " + stringBuilder.toString() + "</html>");
         poetryLabel.setFont(newFont);
         poetryLabel.setForeground(Color.BLACK);
@@ -102,11 +100,11 @@ public class Main {
             // Create a new poem
             Poem poem = new Poem(lines);
             // Get the rhyme scheme
-            String rhymeScheme = null;
-            String metaphoneRhymeScheme = null;
-            String nysiisRhymeScheme = null;
-            String doubleMetaphoneRhymeScheme = null;
-            String refinedSoundexRhymeScheme = null;
+            String rhymeScheme;
+            String metaphoneRhymeScheme;
+            String nysiisRhymeScheme;
+            String doubleMetaphoneRhymeScheme;
+            String refinedSoundexRhymeScheme;
             try {
                 rhymeScheme = Soundex.getRhymeScheme(poem);
                 metaphoneRhymeScheme = Metaphone.getRhymeScheme(poem);
@@ -131,7 +129,7 @@ public class Main {
             String[] poemFiles = new File("poetry").list();
             if (poemFiles != null) {
                 for (String poemFileName : poemFiles) {
-                    if (poemFileName.endsWith("man")){
+                    if (poemFileName.endsWith("man")) {
                         continue;
                     }
                     // create a new File instance by converting the given pathname string into an abstract pathname
@@ -144,8 +142,10 @@ public class Main {
                         exception.printStackTrace();
                     }
 
-                    ArrayList<String> lines = new ArrayList<String>();
-                    while (lineScanner.hasNextLine()) {
+                    ArrayList<String> lines = new ArrayList<>();
+                    while (true) {
+                        assert lineScanner != null;
+                        if (!lineScanner.hasNextLine()) break;
                         lines.add(lineScanner.nextLine());
                     }
 
@@ -191,10 +191,15 @@ public class Main {
                         fileNotFoundException.printStackTrace();
                     }
 
+                    assert rhymeschemelabel != null;
                     rhymeschemelabel.setFont(new Font("Serif", Font.PLAIN, 20));
+                    assert MetaphoneLabel != null;
                     MetaphoneLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+                    assert NysiisLabel != null;
                     NysiisLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+                    assert DoubleMetaphoneLabel != null;
                     DoubleMetaphoneLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+                    assert RefinedSoundexLabel != null;
                     RefinedSoundexLabel.setFont(new Font("Serif", Font.PLAIN, 20));
 
                     JLabel poemTitleLabel = new JLabel(poem.getName());
@@ -208,14 +213,8 @@ public class Main {
 
                     jFrame.pack();
                     jFrame.setVisible(true);
-
                 }
-
             }
         });
-
-
-
-
     }
 }
