@@ -18,22 +18,32 @@ public class Nysiis {
         ArrayList<String> encodings = new ArrayList<>();
         String actualRhyme = poem.getActualRhymeScheme();
 
-        // loop through each line of the poem
+        // Loop through each line of the poem
         for (String line : poem.getLines()) {
-            // line is a single line of the poem
-            // get the last word of the line
+
+            // Line is a single line of the poem
+            // Get the last word of the line
             String lastWord = line.split(" ")[line.split(" ").length - 1];
             org.apache.commons.codec.language.Nysiis nysiis = new org.apache.commons.codec.language.Nysiis();
             String encoding = nysiis.encode(lastWord);
+
             // Get the last 2 letters of encoding
-            encoding = encoding.substring(encoding.length() - 2);
+            try{
+                encoding = encoding.substring(encoding.length() - 2);
+            }
+            catch (Exception e){
+                System.out.println("Encoding Failed");
+            }
+
             // Add encoding to list of encodings
             encodings.add(encoding);
         }
 
         System.out.println(encodings);
+
         // Get the alphabet
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         // get alphabet array
         char[] alphabetArray = alphabet.toCharArray();
 
@@ -43,7 +53,7 @@ public class Nysiis {
 
         int i = 0;
 
-        // loop through encodings
+        // Loop through encodings
         for (String encoding : encodings) {
             if (rhymeMap.containsKey(encoding)) {
                 continue;
@@ -62,13 +72,21 @@ public class Nysiis {
 
         // Loop through each line of the poem
         for (String line : poem.getLines()) {
-            // line is a single line of the poem
-            // get the last word of the line
+
+            // Line is a single line of the poem
+            // Get the last word of the line
             String lastWord = line.split(" ")[line.split(" ").length - 1];
             org.apache.commons.codec.language.Nysiis nysiis = new org.apache.commons.codec.language.Nysiis();
             String encoding = nysiis.encode(lastWord);
+
             // Get the last 2 letters of encoding
-            encoding = encoding.substring(encoding.length() - 2);
+            try{
+                encoding = encoding.substring(encoding.length() - 2);
+            }
+            catch (Exception e){
+                System.out.println("Encoding Failed");
+            }
+
             // Add encoding to list of encodings
             encodings.add(encoding);
 
