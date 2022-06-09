@@ -21,7 +21,13 @@ public class Soundex {
             org.apache.commons.codec.language.Soundex soundex = new org.apache.commons.codec.language.Soundex();
             String encoding = soundex.encode(lastWord);
             // Remove first letter of encoding
-            encoding = encoding.substring(1);
+            try {
+                encoding = encoding.substring(1);
+            }
+            catch (Exception e){
+                System.out.println("Encoding failed");
+            }
+
             // Add encoding to list of encodings
             encodings.add(encoding);
         }
@@ -78,7 +84,13 @@ public class Soundex {
             org.apache.commons.codec.language.Soundex soundex = new org.apache.commons.codec.language.Soundex();
             String encoding = soundex.encode(lastWord);
             // Remove first letter of encoding
-            encoding = encoding.substring(1);
+            try {
+                encoding = encoding.substring(1);
+            }
+            catch (Exception e){
+                System.out.println("Encoding failed");
+            }
+
             // Add encoding to list of encodings
             encodings.add(encoding);
 

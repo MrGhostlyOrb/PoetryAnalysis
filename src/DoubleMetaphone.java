@@ -2,7 +2,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-public class Metaphone {
+public class DoubleMetaphone {
     public static void main(String[] args) {
 
     }
@@ -17,7 +17,7 @@ public class Metaphone {
             // line is a single line of the poem
             // get the last word of the line
             String lastWord = line.split(" ")[line.split(" ").length - 1];
-            org.apache.commons.codec.language.Metaphone metaphone = new org.apache.commons.codec.language.Metaphone();
+            org.apache.commons.codec.language.DoubleMetaphone metaphone = new org.apache.commons.codec.language.DoubleMetaphone();
             String encoding = metaphone.encode(lastWord);
             // Get the last 2 letters of encoding
             try{
@@ -65,7 +65,7 @@ public class Metaphone {
             // line is a single line of the poem
             // get the last word of the line
             String lastWord = line.split(" ")[line.split(" ").length - 1];
-            org.apache.commons.codec.language.Metaphone metaphone = new org.apache.commons.codec.language.Metaphone();
+            org.apache.commons.codec.language.DoubleMetaphone metaphone = new org.apache.commons.codec.language.DoubleMetaphone();
             String encoding = metaphone.encode(lastWord);
             // Get the last 2 letters of encoding
             try{
