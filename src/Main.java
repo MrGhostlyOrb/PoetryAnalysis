@@ -105,9 +105,14 @@ public class Main {
             String rhymeScheme = null;
             String metaphoneRhymeScheme = null;
             String nysiisRhymeScheme = null;
+            String doubleMetaphoneRhymeScheme = null;
+            String refinedSoundexRhymeScheme = null;
             try {
                 rhymeScheme = Soundex.getRhymeScheme(poem);
                 metaphoneRhymeScheme = Metaphone.getRhymeScheme(poem);
+                nysiisRhymeScheme = Nysiis.getRhymeScheme(poem);
+                doubleMetaphoneRhymeScheme = DoubleMetaphone.getRhymeScheme(poem);
+                refinedSoundexRhymeScheme = RefinedSoundex.getRhymeScheme(poem);
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
@@ -115,7 +120,7 @@ public class Main {
             System.out.println("Generated rhyme scheme : " + rhymeScheme);
 
             //show dialog of rhyme scheme
-            JOptionPane.showMessageDialog(frame, "Soundex Scheme : \n" + rhymeScheme + "\n\nMetaphone Scheme : \n" + metaphoneRhymeScheme + "\n\nNysiis Scheme : \n" + nysiisRhymeScheme);
+            JOptionPane.showMessageDialog(frame, "Soundex Scheme : \n" + rhymeScheme + "\n\nMetaphone Scheme : \n" + metaphoneRhymeScheme + "\n\nNysiis Scheme : \n" + nysiisRhymeScheme + "\n\nDouble Metaphone Scheme : \n" + doubleMetaphoneRhymeScheme + "\n\nRefined Soundex Scheme : \n" + refinedSoundexRhymeScheme);
 
         });
 
@@ -151,30 +156,55 @@ public class Main {
                     } catch (FileNotFoundException fileNotFoundException) {
                         fileNotFoundException.printStackTrace();
                     }
-                    // Ctreate a GUI element to display the rhyme scheme and poem title
+                    // Create a GUI element to display the rhyme scheme and poem title
                     JFrame jFrame = new JFrame(poem.getName());
                     jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    jFrame.setLayout(new GridLayout(4, 1));
+                    jFrame.setLayout(new GridLayout(6, 1));
                     JLabel rhymeschemelabel = null;
                     try {
-                        rhymeschemelabel = new JLabel("Soundex : " + Soundex.getRhymeScheme(poem));
+                        rhymeschemelabel = new JLabel("Soundex : " + Soundex.getRhymeScheme(poem), SwingConstants.RIGHT);
                     } catch (FileNotFoundException fileNotFoundException) {
                         fileNotFoundException.printStackTrace();
                     }
                     JLabel MetaphoneLabel = null;
                     try {
-                        MetaphoneLabel = new JLabel("Metaphone : " + Metaphone.getRhymeScheme(poem));
+                        MetaphoneLabel = new JLabel("Metaphone : " + Metaphone.getRhymeScheme(poem), SwingConstants.RIGHT);
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
+                    JLabel NysiisLabel = null;
+                    try {
+                        NysiisLabel = new JLabel("Nysiis : " + Nysiis.getRhymeScheme(poem), SwingConstants.RIGHT);
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
+                    JLabel DoubleMetaphoneLabel = null;
+                    try {
+                        DoubleMetaphoneLabel = new JLabel("Double Metaphone : " + DoubleMetaphone.getRhymeScheme(poem), SwingConstants.RIGHT);
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
+                    JLabel RefinedSoundexLabel = null;
+                    try {
+                        RefinedSoundexLabel = new JLabel("Refined Soundex : " + RefinedSoundex.getRhymeScheme(poem), SwingConstants.RIGHT);
                     } catch (FileNotFoundException fileNotFoundException) {
                         fileNotFoundException.printStackTrace();
                     }
 
                     rhymeschemelabel.setFont(new Font("Serif", Font.PLAIN, 20));
                     MetaphoneLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+                    NysiisLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+                    DoubleMetaphoneLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+                    RefinedSoundexLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+
                     JLabel poemTitleLabel = new JLabel(poem.getName());
                     poemTitleLabel.setFont(new Font("Serif", Font.PLAIN, 20));
                     jFrame.add(poemTitleLabel);
                     jFrame.add(rhymeschemelabel);
                     jFrame.add(MetaphoneLabel);
+                    jFrame.add(NysiisLabel);
+                    jFrame.add(DoubleMetaphoneLabel);
+                    jFrame.add(RefinedSoundexLabel);
 
                     jFrame.pack();
                     jFrame.setVisible(true);
