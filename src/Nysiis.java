@@ -3,8 +3,21 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Nysiis {
-    public static void main(String[] args) {
 
+    // Test harness
+    public static void main(String[] args) {
+        Poem poem = new Poem();
+        poem.setName("The_Raven");
+        ArrayList<String> lines = new ArrayList<>();
+        lines.add("The Raven");
+        lines.add("Once upon a midnight dreary");
+        lines.add("We had no dream");
+        poem.setLines(lines);
+        try {
+            System.out.println(Nysiis.getRhymeScheme(poem));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String getRhymeScheme(Poem poem) throws FileNotFoundException {

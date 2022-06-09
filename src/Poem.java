@@ -11,6 +11,10 @@ public class Poem {
         this.lines = lines;
     }
 
+    public Poem() {
+        this.lines = new ArrayList<>();
+    }
+
     public ArrayList<String> getLines() {
         return lines;
     }
@@ -41,5 +45,9 @@ public class Poem {
 
     public String getName() {
         return name;
+    }
+
+    public void setLines(ArrayList<String> lines) {
+        this.lines = lines;
     }
 }
