@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -9,7 +7,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         // Create a JFrame with a grid layout
         JFrame frame = new JFrame("Poetry Analysis");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -80,7 +78,7 @@ public class Main {
         }
 
         // Create a label to display the poem names
-        JLabel poetryLabel = new JLabel("<html>Poems currently in \"poetry\" directory: <br> " + stringBuilder.toString() + "</html>");
+        JLabel poetryLabel = new JLabel("<html>Poems currently in \"poetry\" directory: <br> " + stringBuilder + "</html>");
         poetryLabel.setFont(newFont);
         poetryLabel.setForeground(Color.BLACK);
         poetryLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));

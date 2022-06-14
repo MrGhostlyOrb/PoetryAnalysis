@@ -74,7 +74,7 @@ public class Soundex {
             // If it is not the first encoding, add it to the map and increment the counter
             else{
 
-                // If the encoding is +- 50 then classify it as the same
+                // If the encoding is +- 30 then classify it as the same
                 int encodingInt = Integer.parseInt(encoding);
                 int lowerBound = encodingInt - 30;
                 int upperBound = encodingInt + 30;
