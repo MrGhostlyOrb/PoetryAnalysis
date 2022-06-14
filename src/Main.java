@@ -88,7 +88,7 @@ public class Main {
         frame.add(generateButton);
 
         // Set the frame to visible
-        frame.setSize(1000, 1000);
+        frame.setSize(1000, 1500);
         frame.setVisible(true);
 
         // Add an action listener to the submit button

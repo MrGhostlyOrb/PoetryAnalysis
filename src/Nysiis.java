@@ -26,7 +26,12 @@ public class Nysiis {
             org.apache.commons.codec.language.Nysiis nysiis = new org.apache.commons.codec.language.Nysiis();
             String encoding = nysiis.encode(lastWord);
             // Get the last 2 letters of encoding
-            encoding = encoding.substring(encoding.length() - 2);
+            try{
+                encoding = encoding.substring(encoding.length() - 2);
+            }
+            catch (Exception e){
+                System.out.println("Encoding Failed");
+            }
             // Add encoding to list of encodings
             encodings.add(encoding);
         }
@@ -68,7 +73,13 @@ public class Nysiis {
             org.apache.commons.codec.language.Nysiis nysiis = new org.apache.commons.codec.language.Nysiis();
             String encoding = nysiis.encode(lastWord);
             // Get the last 2 letters of encoding
-            encoding = encoding.substring(encoding.length() - 2);
+            try{
+                encoding = encoding.substring(encoding.length() - 2);
+            }
+            catch(Exception e){
+                System.out.println("Encoding Failed");
+            }
+
             // Add encoding to list of encodings
             encodings.add(encoding);
 
